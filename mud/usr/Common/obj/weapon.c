@@ -1,0 +1,1 @@
+inherit "/usr/Common/lib/weapon";

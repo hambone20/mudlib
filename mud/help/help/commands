@@ -1,0 +1,20 @@
+brief - change your brief setting from brief to verbose and back.
+bug - report a bug to the admins.
+date - show the current time and date in the mud's location.
+describe - enter a description of yourself for others to see.
+drop - drop an object.
+finger - see another player's name, email, and last login time.
+get - pick up an object.
+give - give an object to another player.
+go - move in a given direction (north, south, up, etc.)
+help - show help files (type "help help" for an overview")
+inventory - list the objects in your possession.
+look - look at an object or another player.
+mail - read and send mail to other players.
+quit - quit the mud.
+say - speak to other players in the same room as yourself.
+tell - send a message to one player anywhere in the mud.
+who - show the players who are currently logged in.
+
+Soul commands are: smile, bow, wave, frown, curtsey, scream, faint, groan,
+kick, ponder, meditate, cheer, nod.

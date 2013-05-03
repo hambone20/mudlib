@@ -1,0 +1,58 @@
+Ship to Ship Ventures
+
+To open up an avenue of wanderlust and exploration, with group
+implications.  
+
+-First we start off by defining a grid that will represent our
+ ocean.  Each coordinate pair will represent a room of sorts.
+
+-Filling each of these "rooms" will be a function that executes
+ any time a ship enters it, or a nil value representing nothing.
+
+-If at any time two ships occupy the same space, they are assumed
+ to be boarding each other, and a passageway will develop between
+ the two.
+ 
+-The functions held in the "rooms" will be called at entrance, so
+ they can handle an event as they see fit, be it a discovery of
+ land or a new turbulance to the ocean.
+ 
+-The ships themselves will be an object containing several rooms.
+
+-Among these defined rooms aboard the ship, will be the helm,
+ poop deck, forecastle deck, quarter deck, crow's nest and other
+ appropriate territories.
+ 
+-Piloting the vessel will consist of a required amount of seamen
+ in the places to man sails, and a driver at the helm, steering
+ the vessel.
+ 
+-Each vessel will have a rating on how well they utilize wind, a
+ function of the current winds, the quality of the vessel and
+ the talent of its crew.  This determines how long it takes to
+ traverse an ocean room.
+ 
+-Seamanship will be required to determine where one is on the wide
+ ocean.  This mainly demonstrates a latitude and current direction.
+ 
+-Steering will turn the direction one increment either right or left
+ in the typical cardinal directions.
+ 
+-The crow's nest has a peculiar feature in that they can foresee what
+ is several ocean "rooms" ahead.  
+ 
+-Communication aboard will be dealt with in a localized channel for
+ the entire boat.
+
+-Seamen are required to be very agile, so a sailor with full plate on
+ doesn't count as a sailor.
+ 
+-A ships heading is stored as a coordinate pair, i.e. (-1, 1) which
+ would denote a heading of northwest, basically the first number
+ denotes whether it is west or east and the second north or south.
+ 
+-This system may be extended with the use of a ship to ship combat
+ via ranged weapons.
+ 
+-All ships must have a unique name to better handle portage.
+

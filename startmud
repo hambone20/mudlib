@@ -1,0 +1,5 @@
+mv mud/logs/session.log mud/logs/session.log.old
+date > mud/logs/session.log
+bin/driver mud.dgd dump 2>> mud/logs/session.log &
+echo DGD started from dump...
+

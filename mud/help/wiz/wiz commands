@@ -1,0 +1,43 @@
+    case "code":
+    case "history":
+    case "clear":
+    case "compile":
+    case "clone":
+    case "destruct":
+    case "dest":
+    case "actions":
+
+    case "cd":
+    case "pwd":
+    case "ls":
+    case "cp":
+    case "mv":
+    case "rm":
+    case "mkdir":
+    case "rmdir":
+    case "ed":
+
+    case "access":
+    case "grant":
+    case "ungrant":
+    case "quota":
+    case "rsrc":
+
+    case "people":
+    case "status":
+    case "swapout":
+    case "statedump":
+    case "shutdown":
+    case "reboot":
+
+    case "od_report":
+    case "full_rebuild":
+
+    case "spectrum":
+    case "summon":
+    case "goto":
+    case "call":
+    case "tail":
+    case "head":
+    case "gauge":
+    case "scan":

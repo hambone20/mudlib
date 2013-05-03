@@ -1,0 +1,10 @@
+The help command can be used to access the mud's help files. Type
+"help" followed by the name of the subject on which you would like
+help. If the mud has a help file on that subject, you'll see it. If
+you type "help" by itself, you'll see an introduction to the mud.
+
+Currently, there is help on the following subjects:
+
+introduction	commands	help
+
+Wizards should also consult the documentation in /doc for help.

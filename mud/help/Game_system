@@ -1,0 +1,385 @@
+Game system treament - Hymael
+
+The defined body and corresponding percentage of total:
+
+- Head 		( 5%)
+- Torso 	(45%)
+- Left arm	(10%) NOTE: primary arm may be selected at creation 
+- Right arm	(10%)
+- Left leg	(15%)
+- Right leg	(15%)
+
+This is important because, for the most part, each attack will fall
+into a foci on one of these areas, or in the case of splash damage,
+one or more.  To an extent, a player will be able to direct attacks
+toward a specific body unit, but that requires skill.  Focus of this
+kind will largely be taken care of with an implementation of fighting
+styles.  An example would be the combat style of modern day kickboxing
+where opponents strike at one another's legs in the attempts to temporarily
+cripple them.  
+
+Armor will, of course, shield each centralized area.  An unprotected area
+soon becomes fodder to opposing fighters.  Strategy will ensue in finding
+the weakness of a given mob or player and focusing attacks designed to
+reap the rewards of this foresight.  
+
+A shield and some forms of fighting styles that use a parrying technique
+with their weapons allows for heightened protection, before the fact.  A
+shield, with it's ability to intercept an attack, can avoid damage altogether.
+Shields will have a relatively low ac for this fact.  An intercepting shield
+or weapon will give a message such as:
+
+Jethro's shield intercepts your dirk.
+
+The relative "points" divvied to each body part is a function of several things:
+
+- Player's constitution (applying in amounts equal to the percentage)
+- Player's race (i.e. dwarves are inherently more robust)
+- Player's level
+- Nagging injuries (more on injuries later)
+- And many miscellaneous things will come into play
+
+The healthiness of a given body part will be abstract to the player.
+Superb condition will not be noted, but an ailing condition will:
+
+- Superb condition
+- Light wound
+- Moderate wound
+- Severe wound
+- Critical wound
+
+This gruesome combat system will neccessitate a very active cleric class.
+Fighter's will be able, to an extent, deliver first aid in abating blood
+loss and the like.
+
+*Injuries*
+
+Permanent and gruesome injuries will be implemented.  On everything moderate 
+and up, there is a chance of something critical to happen.  There will be a 
+table made that scales to gradually more hindersome injury traits.  Weapons
+will deal damage according to type (i.e. blunt weapons will crush bones).
+
+Examples:
+
+Arm:
+- (moderate) -> Weapon is dropped
+- (moderate) -> Stunned for 2 rounds
+- (moderate) -> Lose use of arm, until healed
+- (severe)   -> Stunned for 4 rounds
+- (severe)   -> Stunned for 6 rounds
+- (severe)   -> Hand lost
+- (critical) -> Arm lost, death imminent
+- (critical) -> Arm lost, system shock death
+
+Leg:
+- (moderate) -> Stunned for 1 round
+- (moderate) -> Effective dexterity lowered
+- (moderate) -> Fall to ground
+- (severe)   -> Stunned for 3 rounds
+- (severe)   -> Movement hampered
+- (severe)   -> Foot disabled
+- (critical) -> Foot lost
+- (critical) -> Leg lost, death imminent
+
+Torso:
+- (moderate) -> Stunned for 1 round
+- (moderate) -> Armor class lowered
+- (moderate) -> Stunned for 3 rounds
+- (severe)   -> Bleeding wound
+- (severe)   -> Organ damage
+- (severe)   -> Stunned for 8 rounds
+- (critical) -> Disemboweled
+- (critical) -> Heart pierced, death
+
+Head:
+- (moderate) -> Dazed for 1 round
+- (moderate) -> Effective intelligence lowered
+- (moderate) -> Stunned for 2 rounds
+- (severe)   -> Sight impaired
+- (severe)   -> Loss of equilibrium, stunned for 10 rounds
+- (severe)   -> Unconscious
+- (critical) -> Unconscious, permanent intelligence loss
+- (critical) -> Death
+
+These are just some rough ideas of what could populate these tables.  That
+being much of the paint, it will take some time to flush out and balance.
+
+*Combat*
+
+To up the stakes even further, combat will have a defined "lock" state.
+
+Example:
+
+- Our hero, Jethro, enters a room and finds it inhabited by an ogre
+- Jethro, sporting a longbow, begins to lace the ogre's hide with arrows
+- The ogre, with no missile weapon, charges Jethro
+- Charging takes time, meanwhile Jethro pumps more arrows into the ogre
+- Now, the charging time has passed, and the ogre "locks" with Jethro
+- Jethro, having not readied his sword, is in bad shape, losing rounds
+  while he readies his sword
+
+Several things need to be defined beforehand, namely encounter distances.
+Each room will thusly inherit a value for this, as it will differ from
+room to room.  And weapons will be labeled melee or missile, or both.
+A melee weapon will only be effective if "locked" with an opponent and
+missile weapons will only be effective when "unlocked".
+
+There will be numerous ways in which to engage an opponent.  Namely the
+"melee" command.  Other will have differing attributes.  A possible one
+being "charge".  This will reduce the encounter distance to "lock" and
+will heighten the charging person's attack rating while lowering their
+defense.  Another possible "lock" skill could be "sneak", in which the
+perpetrator attempts to disguise their approach.  Yet another possibility
+is "approach", in which a person cautiously approaches an attacker with
+heightened defense but which takes longer to engage.
+
+Some weapons, such as polearms, fall under a category of "reach".  With
+these weapons, the wielder evades a "locked" state while attacking an
+opponent at range.  If the opponent manages to evade the polearm and
+enter a locked state, these types of weapons become largely ineffective
+and will reflect such.
+
+The ability to stay "unlocked" and to thus disengage if "locked" is a
+valued skill.  This will largely be a function of dexterity and prowess
+at combat.  A "locked" person can, at the expense of several undefensed
+attacks, "flee".  This means there is a zero-barrier to fleeing.  There
+will also be a "withdrawal" in which one fights their way out of combat
+over a period of time.  The person committing to a withdrawal will have
+heightened defense and little to no offense.
+
+With all these states of combat, there is required a command to change an
+individual's tactics.  This will be done by fighter types through the
+command, "assume".  "Assume" tells the player's character to assume a
+given fighting style. Some examples of such follow.
+
+Fighting Styles:
+
+- (Berserker)   -> Player fights with crazed abandon, little or no tactics
+		   with heightened attack and lowered defense.  Stuns have
+		   little effect.  Player cannot withdraw or flee.
+
+- (Swashbuckler)-> Player fights with poise, using terrain to their advantage.
+		   Requires suitable weaponry.  Attacks have a heightened
+		   chance of criticals.
+		
+- (Swordmaster) -> Style requires much player skill.  Targets vital areas
+		   on their opponent with heightened damage and criticals.
+		   Must be fighting with a weapon in which they're proficient.
+		   
+- (Mounted)     -> Requires mount of course.  This may be a pass type combat
+		   where the mounted combatant locks briefly then disengages
+		   and makes another pass.
+		  
+- (Grappler)    ->
+
+- (Dirty)       ->
+
+- (Sharpshooter)->
+
+...to be expounded on.
+
+*The Combat Round*
+
+What follows is a sample of combat flow:
+
+- Jethro enters a room, inhabited by Thol, the fierce orcish warrior
+- Thol, being aggressive toward Jethro's race and having readied a
+  sling, begins chucking stones at Jethro
+- Jethro, issues the command to "cover" which heightens his armor class
+  versus missile weapons and, after 2 rounds, he is virtually immune
+- Thol, running short on stones and bloodthirsty, drops his sling and,
+  readying his rusty mace, charges Jethro
+- Jethro, noting Thol's aggressive charge, issues a "set for charge" which
+  further heightens his ability to attack versus a charge Jethro also
+  issues an "assume sword and shield", to adopt his trained fighting
+  style
+- The room, having been given an encounter range of 6 and Thol wasn't
+  set for "ambush", sees Thol approach Jethro, Jethro sees:
+  
+  Thol bears down on you in a charge!
+  Thol bears down on you in a charge!
+  
+  You receive an attack of oppurtunity for having set.(this is at heightened
+  						       attack)
+  Thol engages you in melee!
+  (Thol's charge effectively wears off)
+  (Jethro has wielded a sword and shield)
+  (Thol wields the rusty mace)
+  Thol swipes at you with his rusty mace but misses.
+  
+  You strike Thol in the abdomen with your fine sword, scoring a light wound.
+  (Jethro issues a "look thol")
+  Thol, the fierce orcish warrior
+  
+  Thol bleeds from a light wound on his torso.
+  (description)
+  
+  Your shield intercepts Thol's rusty mace with a clang!
+  (Thol sees, Jethro's shield intercepts your mace with a clang!)
+  
+  You attack Thol with your fine sword but miss.
+  
+  Thol pounds you in the leg with his rusty mace, opening a moderate wound.
+  (critical damage code)
+  You fall to the ground!(Jethro enters prone state, in which his ac is lowered,
+                          to stand next round)
+  Thol hammers you in the head with his rusty mace, delivering a severe blow.
+  (critical damage code)
+  You lose your equilibrium!
+  ...
+  
+Of course, the actual critical events won't happen near as often as this, unless
+skills are very divergent.
+
+
+*Flight*
+
+Flight will be possible, as will many varying types of mounts.  A character
+under the influence of a flight spell, or atop a flying mount, will be able
+to go "aloft".  When aloft, the player will be on a virtual grid server that
+mirrors the rooms below.  Each room must thusly be labeled indoor or outdoor,
+defaulting to outdoor.  They will see something such as:
+
+The Sky over (room's name)
+
+  The wind whips you about as you soar atop your (mount's name).
+  (list members of this sky room)
+  Below you sprawls the countryside, you can make out...
+
+(room description of the room below)
+  (occupants)
+  
+There will be an optional feature that allows the flying player to observe
+an adjacent room, via "look direction".
+
+Combat will be handled in short swoops, with quick locking and unlocking phases.
+
+*Character Creation*
+
+Character creation will largely be dealt with in an evolving fashion.  At the very
+beginning, the player will be given a choice.
+
+Doctrines:
+
+- Craftsman
+- Noble
+- Street Urchin
+- Spiritual
+- Wilder (need a better name for one disposed to the wilderness)
+- Scholar
+
+*Craftsman*
+
+Craftspersons will play a vital role in the scheme of things, and indeed they'll
+be the recommended starting character.  Weapons and armor, and most equipment, will
+suffer wear and eventually need repair.  That's where the craftsmen come in.  Depending
+on the craft chosen, attributes may become better accordingly.  Say one chooses to
+smith armors as an occupation, their strength would gradually become great from the
+strain.  And if one were to take up sewing, their dexterity would increase.  
+
+The inherent goal of this doctrine is to become skilled in their practice and make
+money hand and fist.  Also, highly skilled craftsmen will be highly sought in
+Coteries (to be expounded on later).
+
+*Noble*
+
+Nobles were born with a silver spoon and are more disposed to political intrigue than
+fighting or crafting.  Their role is often one of leading.  They benefit in that they
+have reputation and often much pull in political branches.
+
+*Street Urchin*
+
+The street urchin is a hardly soul that has grown up in the streets, fighting for scraps
+and often stealing.  They are easily disposed to dirty tactics and theft.  From their
+humble stature, they often grow into powerful underworld influences, if they can avoid
+imprisonment or having their throats slit.
+
+*Spiritual*
+
+This doctrine is most suitable to the clerical arts.  They are often the only ones that
+can can cure some of the more gruesome wounds.  They play a very powerful role in day
+to day activities.
+
+*Wilder*
+
+This is a person disposed to the wilderness.  They are often quite skilled with a bow
+and fit the role of a ranger.  Some also learn the ways in which to befriend the wild
+elements and exercise the way of the druids.
+
+*Scholar*
+
+This is the only doctrine that specifically pursues the magicial arts, a very tedious
+task to be sure.  Often they are forced into days of perusing old tomes in their
+pursuit for spells and magical means.  They may also take up in a noble court and offer
+their ensights.
+
+*Coteries*
+
+As I mentioned Coteries in passing above, I'll explain them further.  A Coterie is
+a collective group of persons that get together and pledge their loyalty to a common
+goal.  They then recruit craftsmen to build their stronghold.  This stronghold then
+becomes their center of operations.  Most people will find their niche in a given
+Coterie, others will avoid them entirely.  Coteries often fall into battle with other
+Coteries, when a perceived wrong was done or due to conflicting beliefs.  In the case
+of a full on Coterie battle, strongholds will be under siege by the aggressor.
+
+*Death*
+
+The all important state of death.  Upon the issuance of a death knell, the dying person
+will be exiled to the Labyrinth.  This is a harsh testing ground where the person must
+earn their way back into society.  One is confronted with trials depending on their
+doctrine.  A scholar might face several tests of the mind, whereas a hardy fighter-type
+may face the scorn of many abominable beasts.  Many things can be learned from one's time
+in the Labyrinth.  Indeed, one's character goes through many changes here.
+
+The Labyrinth's difficulty is based on the experiences of the character.  The more
+a character has progressed, the more difficult the Labyrinth will become to escape.
+Upon escape of the Labyrinth, a person must try to assume their status again.
+
+*Notes on Monster Spawns*
+
+Monster spawning will be dealt with in a very different manor.  There will be very few
+static spawns.  Many monsters will have a large stronghold of their specific race, one
+so large that it would take a great force of players to assault it.  Insomuch as this
+stronghold is unlikely to be challenged often, it is free to breed its beasts.  Often,
+the stronghold will only be dealt with abstractly, with a tally of beasts within, and
+remain unloaded.  But, randomly beasts will be dispersed from within, to roam to set areas
+and await battle with players.  
+
+Of course, there will be many different varieties of the spawn.  When players do manage to
+gang together and take on the stronghold, they will reap many benefits.  If the players do
+destroy the populace, that particular race will dwindle, to recover over time.
+
+*Adventurers*
+
+Inevitably, some persons will want to forsake their present doctrine to become an
+adventurer.  This is done by simply doing.  One retains their previous skills but they do
+slowly deteriorate without use.  The player is free to do what they want, but their
+previous pasttime will influence how effective they are at a given task.
+
+Example:
+
+- Bob has been a craftsman since creation, and has done mostly sewing
+- But Bob longs for the life of an adventurer
+- Bob finds himself a sword and wanders out into the countryside, seeking
+  adventure
+- He finds that his dexterity gained from those long hours of sewing
+  benefit him in a quick, agile fighting style
+- And so, Bob becomes a quite skilled fighter from his humble beginnings
+
+*Possible Crafts*
+
+This will be an area possible for much expansion, a list of possible crafts
+follow.
+
+Crafts:
+
+- Weaponsmithing (fabrication and repair of weaponry)
+- Armorer        (fabrication and repair of armor)
+- Sewing         (fabrication and repair of clothes)
+- Cooking        (fabrication of food)
+- Brewing        (fabrication of alcohol)
+- Mining         (collection of ores)
+- Bowyer         (fabrication and repair of bows/arrows)
+- Builder        (skilled in building domiciles, sought by Coteries)
+- Alchemist      (fabrication of potions and elixirs)

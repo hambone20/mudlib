@@ -1,0 +1,176 @@
+Synopsis
+
+varargs void message(mixed array list, object array exclude, object array define, function filter);
+[edit]
+Files
+
+   /mod/basic/messaging.c
+   /mod/character/commands.c
+
+[edit]
+Description
+
+The function message() provides a multipurpose, flexible, expandible protocol for delivery of a point-of-view oriented event message to a selection of targets. It should be called in the object which the message should "originate" from; this is somewhat arbitrary, but allows certain convenient shorthand notations to be used. This object will henceforth be referred to as the originator.
+
+The first argument to message(), 'list', is an array of various values which define the message to be delivered. The second argument, which is optional, defines an array of objects which should be excluded from receiving the message. The third argument, also optional, allows explicit definition of a list of objects which should receive the message. The default for this is the contents of the originator's environment plus the environment itself, unless the originator has the invisibility flag Invis_Actions, in which case the default is all object variables present in 'list'. The fourth argument can be used to specify a function which all those to whom the message would normally be sent should be filtered through (i.e. they will not receive the message if the function returns 0 when called with them as argument).
+
+message() operates by broadcasting the 'list' in array form to all its targets through the function receive_message(). In each individual target, the various elements of the list are converted to the appropriate representational string and concatenated; i.e. an object configured as a ring might be converted to "brass ring" or "ring of warmth" according to whether the target recognizes it for what it is.
+
+An element of a list may be:
+
+*Zero This will be replaced with the originator and evaluated as per an object.
+
+*A string The string will be used as-is in the final message.
+
+*An object The object will be converted to a string identifier based on the object's query_name(); an article (a, an, or the) will be applied if appropriate.
+
+*A function pointer The function pointer will be evaluated with no arguments passed. It is expected to return a string; failure to do so will cause errors.
+
+*A nonzero integer The integer will be interpreted as a control code to affect subsequent list elements. Valid control codes are:
+
+       'a'    Apply a() to the following element.
+       'c'    Apply capitalize() to the following element.
+       'j'    Join together the following two elements without inserting
+              a space between them.
+       'n'    Ignore this element, as if it were not present.  (Useful
+              in condition construction of messages.)
+       'p'    Apply pluralize() to the following element.
+       's'    Apply singularize() to the following element.
+       'w'    Apply capitalize_words() to the following element.
+
+*An array The array must contain either two or three elements, the first of which must be a string or an integer. The second and third elements may be an object, a string, an array, or 0; 0 will be converted to the originator.
+
+If the first element is a string, it will be treated as a verb being performed by the second element, which should be an object or an array of objects.
+
+If the first element is an integer, it will be interpreted as a special command code based on its character value, according to the following table:
+
+       ({ 'a', obj })                                                 "an orc"
+           The second element will be affected as by the function a();
+           i.e. ({ 'a', autonomon }) will be converted into a string
+           along the lines of "an orc", "a troll", or "Bob"
+
+       ({ 'c', obj })                                                    "orc"
+           The race of the second element, which must be an object, as
+           apparent to the viewer.  If the second element has no race,
+           "object" will be produced.
+
+       ({ 'd', room, "north" })                     "north" / "from the south"
+           Third element expressed as a direction originating within
+           the second element; i.e. ({ 'd', room, "north" }) will
+           produce "north" for those in 'room' and "from the south"
+           for those elsewhere.
+
+       ({ 'e', obj })                                     "an orc" / "the orc"
+           Second element affected as by one()
+
+       ({ 'i', list })                          "a sword, an axe and a shield"
+       ({ 'i', list, "or" })                     "a sword, an axe or a shield"
+           Array-listing form of the second element, which must be an
+           array.  Any objects will be converted to strings and list_array()
+           will be applied to the result.  If a third element is supplied,
+           this will become the conjunction used by list_array().
+
+       ({ 'l', obj })                       "himself" / "herself" / "yourself"
+           Reflexive pronoun of the second element (himself, herself,
+           yourself, etc)
+
+       ({ 'm', obj })                                 "his" / "hers" / "yours"
+           Possessive-objective pronoun of the second element (his, hers,
+           yours, etc)
+
+       ({ 'n', obj })                                                    "orc"
+           The literal name of the second element, i.e. "orc", "troll", "Bob"
+
+       ({ 'o', obj })                    "him" / "her" / "it" / "them" / "you"
+       ({ 'o', obj, True })           "him" / "her" / "that" / "those" / "you"
+           Objective pronoun of the second element (him, her, etc).  If
+           a third element of True is given, the objective indicative pronoun
+           ('that' rather than 'it', 'those' rather than 'them') is used.
+
+       ({ 'p', obj })                     "he" / "she" / "it" / "they" / "you"
+       ({ 'p', obj, True })            "he" / "she" / "that" / "those" / "you"
+           Subjective pronoun of the second element (he, she, etc).  If
+           a third element of True is given, the subjective indicative
+           pronoun ('that' rather than 'it', 'those' rather than 'they')
+           is used.
+
+       ({ 'q', obj })                                   "his" / "her" / "your"
+           Possessive pronoun of the second element (his, her, etc).  Use
+           'r' instead of 'q' whenever possible.
+
+       ({ 'r', who, obj })                          "his sword" / "your knife"
+       ({ 'r', who, list })                              "his sword and knife"
+           Indefinite possessive form of the third element with respect
+           to the second element; i.e. ({ 'r', 0, weapon }) will produce
+           "his sword", "her knife", "Heavensfire", etc.  The third element
+           may be a string, an object, or an array of strings and/or objects.
+
+       ({ 's', who, obj })                    "the orc's sword" / "your knife"
+       ({ 's', who, list })                        "the orc's sword and knife"
+           Definite possessive form of the third element with respect to
+           the second element; i.e. ({ 's', 0, weapon }) will produce "the
+           troll's sword", "Bob's knife", "Stormbringer", etc.  The third
+           element may be a string, an object, or an array of strings and/or
+           objects.  In a very special-case behavior, if 's' is used and
+           the third element is entirely proper-named so that the second
+           element's name does not appear, this causes the next non-reflexive
+           pronoun in the message that refers to the second element to display
+           a name; this means that a 'm' or 'q' will be treated as a 'u', an
+           'o' or 'p' will be treated as a 'e', and a 'r' will be treated as
+           a 's'.
+
+       ({ 't', obj })                                                "the orc"
+           Second element affected as if by the()
+
+       ({ 'u', obj })                                     "the orc's" / "your"
+           Definite possessive form of the second element, i.e.  ({ 'u', 0 })
+           will produce "your" or "Bob's" or "the orc's".  Use 's' instead of
+           'u' whenever possible.
+
+       ({ 'w', obj })                                          "orc" / "orc 2"
+           Second element affected as if by which()
+
+       ({ 'x', obj })                                        "male" / "female"
+           The sex of the second element as apparent to the viewer, i.e.
+           ({ 'x', person }) will produce "male", "female", "neuter", etc.
+           If the second element's sex is indeterminate to the viewer,
+           nothing will be produced.
+
+       ({ 'z', obj, "forme", "foryou" })                    "forme" / "foryou"
+           Uses the third or fourth element depending on the viewer, i.e.
+           ({ 'z', 0, "you", "this" }) will produce "you" if the viewer
+           matches the originator of the message, otherwise "this".
+
+Once converted to strings locally, the elements of the list are normally concatenated with a single space inserted between each pair. The space will not be inserted, however, before any list element which begins with one of the characters ,;:.!? for purposes of consistency.
+
+It is expected that support for language interpretation and other functions will be added into the messaging code.
+[edit]
+Examples
+
+To send a message of an orc bowing to an ogre (represented by the object variables 'orc' and 'ogre' respectively):
+
+   orc->message(({
+       0, ({ "bow", 0 }), "to", ogre,
+   }));
+
+The orc will see "You bow to the ogre.\n", the ogre will see "The orc bows to you.\n", and others present will see "The orc bows to the ogre.\n".
+
+For a sword to send a message that it leaps toward its target:
+
+   wielder->message(({
+       ({ 's', 0, this_object() }), ({ "leap", this_object() }),
+       "toward", target,
+   }));
+
+For 'bob' to wiggle his ears:
+
+   bob->message(({
+       0, ({ "wiggle", 0 }), ({ 'r', 0, "ears" }),
+   }));
+
+For 'larry' to run into 'moe', shoving him into 'curly':
+
+   larry->message(({
+       0, ({ "run", 0 }), "into", moe, ", shoving",
+       ({ 'o', moe }), "into", curly,
+   }));

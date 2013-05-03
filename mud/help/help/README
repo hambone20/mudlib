@@ -1,0 +1,2 @@
+This is where player help files are kept. If the player types "help foo",
+then the file /doc/help/foo will be mored to him if it exists.

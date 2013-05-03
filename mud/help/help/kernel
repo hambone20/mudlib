@@ -1,0 +1,84 @@
+The code command lets you execute a little snippet of code and get the value back. 
+DGD will automatically make a temporary object for you in a temporary file that 
+executes your code. DGD even predeclares 26 one-letter lowercase variables of type 
+mixed for you to use in your code just in case you need some temp vars.
+
+You can type history by itself or followed by a number to access the history of 
+values your code, compile and clone commands have been returning. You can access 
+these values in the arguments of many commands by referring to them as $1, $2, $3, 
+et cetera.
+
+The clear command clears the command history.
+
+The compile command recompiles an object. Some objects won't like being recompiled 
+- for instance if stuff inherits from them. You give it the filename and it recompiles 
+the file. You can just give the filename without the path if you're in the correct 
+current directory. See cd, ls, pwd, and so on for how to tell if you're in the correct 
+directory.
+
+The clone command clones an object and puts it in the command history for your enjoyment 
+and edification. You can later take the status or destruct it. Make sure to destruct 
+what you create!
+
+The destruct command lets you destruct objects. Doing so can be useful in your efforts 
+to recompile inheritable (library) objects. You're still better off with an object daemon 
+doing it for you, but destruct will also help you test that.
+
+cd, pwd, ls, cp, mv, rm, mkdir, rmdir: these are just like the regular Unix shell commands 
+of the same names. For DOS or Windows guys: ls is dir. cp is copy. mv is move. rm is del. 
+pwd tells your current directory. mkdir and rmdir are pretty much the same as in DOS. 
+cd is mostly the same, but typing just cd by itself doesn't print the directory. Instead 
+it changes to your home directory. You can use all these commands from your OS instead of 
+inside the MUD, but sometimes it's more convenient to have the command line right there.
+
+The ed command lets you edit a file using DGD's built-in editor. Docs on how to use it come 
+with DGD. You can always just use the editor on your machine if you prefer. However, Windows 
+users take note: the DGD editor is guaranteed to have the right linebreak behavior and most 
+Windows editors (like Visual Studio, Visual C++ or Notepad) aren't. So the DGD built-in editor 
+may be a good alternative to grabbing TextPad.
+
+If you're the admin, another advantage is that your MUD admins can have MUD accounts, but 
+not shell accounts on the server box. They can use the DGD editor and get access only to the 
+files they're supposed to, and not your Unix command line nor other people's files. That's a 
+cheaper, simpler (and worse) alternative to writing an FTP server into your MUD.
+
+You can use the access command on a wizard's name to find out what s/he can access. You can 
+use it with no argument to find out your access. With the special string "global" you can 
+find out what areas allow everybody read access. You can use it on a file to find out who 
+has what access to it.
+
+grant
+
+ungrant
+
+The quota command lists a wizard's resource usage. With no arguments it gives the usages 
+for the user that typed it. With one argument it gives the usages for the wizard whose 
+name is given. With two arguments it takes a wizard's name and a resource type (such as
+ticks, stack, callouts, etc) to give the usage for. With three arguments of the form 
+"quota <user> <rsrc> <limit>" it will try to set that user's limit on that resource to 
+the number specified if you've got the necessary privilege to do that. For most limits, 
+-1 means infinite.
+
+The rsrc command typed by itself will show the MUD's total usage of the same resources 
+quota affects. This doesn't just show your usage. It shows everybody's. With a resource 
+name and a numerical limit rsrc will set the new limit to the given value. With just a 
+resource name rsrc will list the usage of that resource by all wizards.
+
+The people command is just a slightly beefier users command. It displays IP addresses of 
+those logged in.
+
+The status command shows a little summary of driver status. Try it out and see! You can 
+also use it with an argument to get the status of an object. Try some object names and 
+some values from the history list.
+
+The swapout command will attempt to swap out all objects. This could be useful for 
+testing, prior to a statedump, or when the MUD's RAM footprint is objectionably large 
+and not many users are logged in.
+
+The statedump command will write out a dump of the MUD's current state which could be 
+good for bootstrapping the MUD later, backing up in case of crashes, or duplicating the 
+MUD and running another copy.
+
+The shutdown command attempts to shut down the MUD.
+
+The reboot command attempts to reboot the MUD.

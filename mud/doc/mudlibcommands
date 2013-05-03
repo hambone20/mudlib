@@ -1,0 +1,129 @@
+user commands:
+-have to do with just having an account on the game
+-lowest form of commands
+
+intrinsic user:
+-say '
+-emote :
+-tell
+-users
+-password
+-quit
+
+bodied user:
+we mask the intrinsic user commands with our more complete body command selection
+only allowing commands to reach the user level if we don't have a body to call
+
+body commands:
+-pertain to your physical presence on the mud
+-body overrides commands in user
+
+-look l
+-go default look up pattern
+-beep
+-kill
+-inventory i
+-wield
+-unwield
+-equip
+-unequip
+-hp
+-score
+-skills
+-wealth
+-get
+-drop
+-give
+-xa
+-date
+-alias
+-unalias
+-bug
+
+Channeld:
+-show
+-tune
+
+
+admin commands:
+-pertain to administrative duties
+-admin overrides wizardly commands
+-hardwired into kernel lib
+
+code
+history
+clear
+compile
+clone
+destruct
+
+cd
+pwd
+ls
+cp
+mv
+rm
+mkdir
+rmdir
+ed
+
+access
+grant
+ungrant
+quota
+rsrc
+
+people
+status
+swapout
+statedump
+shutdown
+reboot
+
+wiz commands:
+-pertain to wizardly duties
+-users own wiztools, and the commands must detect whether there's a body or not
+
+-code
+-history
+-clear
+-compile
+-clone
+-destruct
+-dest
+
+-cd
+-pwd
+-ls
+-cp
+-mv
+-rm
+-mkdir
+-rmdir
+-ed
+
+-access
+-grant
+-ungrant
+-quota
+-rsrc
+
+-people
+-status
+-swapout
+-statedump
+-shutdown
+-reboot
+
+-spectrum
+-summon
+-goto
+-call
+
+need hook callbacks in most commands
+
+hookerd will handle all of these
+
+body command prototyping
+
+
