@@ -1,7 +1,8 @@
 # define TRUE	1
 # define FALSE	0
 
-# define ASTARIA_CLONE "/astaria/" /**< set this option for astaria clone code */
+/**< set this option for astaria clone code */
+/* # define ASTARIA_CLONE "/astaria/" */
 
 # define BODY "/usr/Common/obj/body" /**< body */
 

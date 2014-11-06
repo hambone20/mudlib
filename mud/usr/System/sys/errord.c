@@ -163,13 +163,13 @@ private string format_trace(mixed **trace, int marker){
     lines = allocate(sz * 2);
     for (i = j = maxlen = 0; i < sz; i++) {
 	int    linenr;
-	string objname, progname, function, line, last_obj, last_prog;
+	string objname, progname, func, line, last_obj, last_prog;
 	mixed  *elt;
 
 	elt = trace[i];
 	objname  = elt[TRACE_OBJNAME];
 	progname = elt[TRACE_PROGNAME];
-	function = elt[TRACE_FUNCTION];
+	func = elt[TRACE_FUNCTION];
 	linenr   = elt[TRACE_LINE];
 
 	if (objname != last_obj) {
@@ -183,8 +183,8 @@ private string format_trace(mixed **trace, int marker){
 	    lines[j++] = ({ line, nil });
 	    last_obj = last_prog = objname;
 	}
-	if (progname == AUTO && strlen(function) > 3) {
-	    switch (function[..2]) {
+	if (progname == AUTO && strlen(func) > 3) {
+	    switch (func[..2]) {
 	    case "bad":
 	    case "_F_":
 	    case "_Q_":
@@ -199,7 +199,7 @@ private string format_trace(mixed **trace, int marker){
 	if (strlen(line) > maxlen) {
 	    maxlen = strlen(line);
 	}
-	lines[j++] = ({ line, function });
+	lines[j++] = ({ line, func });
     }
     result = "";
     for (i = 0; i < j; i++) {

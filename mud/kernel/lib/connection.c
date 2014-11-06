@@ -247,7 +247,9 @@ static void message_done(mixed *tls)
 void datagram_challenge(string str)
 {
     if (previous_object() == user) {
+/* XXX undefined 
 	::datagram_challenge(str);
+*/
     }
 }
 
@@ -280,6 +282,9 @@ static void receive_datagram(mixed *tls, string str)
 int datagram(string str)
 {
     if (previous_object() == user) {
+/* XXX instead return 0 like sshd-v4...
 	return (send_datagram(str) == strlen(str));
+*/
+       return 0;
     }
 }

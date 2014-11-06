@@ -592,7 +592,7 @@ mixed parse_call(string str){
  * @todo Fix this up
  */
 static void cmd_call(object user, string cmd, string str){
-    string id, function, args, *calls;
+    string id, func, args, *calls;
     mixed ret, obj, obj2;
 
     if(!str || !strlen(str) || !sizeof(calls = explode(str, ";"))){
@@ -613,15 +613,15 @@ static void cmd_call(object user, string cmd, string str){
 	    return;
 	}
 
-	if(catch(function = (string)strip(strip(calls[1]), '"'))){
+	if(catch(func = (string)strip(strip(calls[1]), '"'))){
 	    message("Function not string.\n");
 	    return;
 	}	
-	if(!function_object(function, (object)obj[0])){
-	    message("No function: \""+function+"\" in object.\n");
+	if(!function_object(func, (object)obj[0])){
+	    message("No function: \""+func+"\" in object.\n");
 	    return;
 	}
-	str = catch(ret = call_other((object)obj[0], function));
+	str = catch(ret = call_other((object)obj[0], func));
 	if(str){
 	    message("Error: "+str);
 	    return;
@@ -639,37 +639,37 @@ static void cmd_call(object user, string cmd, string str){
 	    return;
 	}
 
-	if(catch(function = (string)strip(strip(calls[1]), '"'))){
+	if(catch(func = (string)strip(strip(calls[1]), '"'))){
 	    message("Function not string.\n");
 	    return;
 	}	
 
-	if(!function_object(function, (object)obj[0])){
-	    message("No function: \""+function+"\"in object.\n");
+	if(!function_object(func, (object)obj[0])){
+	    message("No function: \""+func+"\"in object.\n");
 	    return;
 	}
 	obj2 = parse_call(calls[2]);
 	switch(obj2[1]){
 	case T_OBJECT:
-	    str = catch(ret = call_other((object)obj[0], function, (object)obj2[0]));
+	    str = catch(ret = call_other((object)obj[0], func, (object)obj2[0]));
 	    break;
 	case T_INT:
-	    str = catch(ret = call_other((object)obj[0], function, (int)obj2[0]));
+	    str = catch(ret = call_other((object)obj[0], func, (int)obj2[0]));
 	    break;
 	case T_FLOAT:
-	    str = catch(ret = call_other((object)obj[0], function, (float)obj2[0]));
+	    str = catch(ret = call_other((object)obj[0], func, (float)obj2[0]));
 	    break;
 	case T_STRING:
-	    str = catch(ret = call_other((object)obj[0], function, (string)obj2[0]));
+	    str = catch(ret = call_other((object)obj[0], func, (string)obj2[0]));
 	    break;
 	case T_ARRAY:
-	    str = catch(ret = call_other((object)obj[0], function, obj2[0]));
+	    str = catch(ret = call_other((object)obj[0], func, obj2[0]));
 	    break;
 	case T_MAPPING:
-	    str = catch(ret = call_other((object)obj[0], function, (mapping)obj2[0]));
+	    str = catch(ret = call_other((object)obj[0], func, (mapping)obj2[0]));
 	    break;
 	default:
-	    str = catch(ret = call_other((object)obj[0], function, obj2[0]));
+	    str = catch(ret = call_other((object)obj[0], func, obj2[0]));
 
 	}
 	if(str){
