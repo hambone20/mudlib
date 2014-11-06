@@ -1037,7 +1037,7 @@ int forbid_inherit(string from, string path, int priv)
  * object's "untouched" status should be preserved through the following
  * call.
  */
-int touch(object obj, string function){
+int touch(object obj, string func){
     /* upgrade calls should be made here, that would be things in order to update old objects to new objects */
 
     return 0;

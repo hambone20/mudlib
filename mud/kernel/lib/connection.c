@@ -247,7 +247,9 @@ static void message_done(mixed *tls)
 void datagram_challenge(string str)
 {
     if (previous_object() == user) {
+/* XXX undefined 
 	::datagram_challenge(str);
+*/
     }
 }
 

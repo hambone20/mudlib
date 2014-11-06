@@ -150,11 +150,11 @@ atomic void slide(mixed dest){
     environment = dest;
 }
 /* not sure on implementation yet */
-void add_command(string word, string function){
+void add_command(string word, string func){
     if(!commands)
 	commands = ([ ]);
 
-    commands[word] = function;
+    commands[word] = func;
 }
 
 PER_ACTION{
