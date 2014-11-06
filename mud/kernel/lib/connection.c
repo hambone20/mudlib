@@ -282,6 +282,9 @@ static void receive_datagram(mixed *tls, string str)
 int datagram(string str)
 {
     if (previous_object() == user) {
+/* XXX instead return 0 like sshd-v4...
 	return (send_datagram(str) == strlen(str));
+*/
+       return 0;
     }
 }
